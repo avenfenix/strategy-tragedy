@@ -8,7 +8,6 @@ Width = 800
 Height = 600
 
 
-
 class Personaje:
 
     cont = 4
@@ -17,6 +16,7 @@ class Personaje:
     drawed = 0
     draw_inv = 0
     isJumping = False
+    JumpCount = 10
     direc = True
     i = 0
 
@@ -54,23 +54,34 @@ class Personaje:
 
     def teclado(self):
         teclado = pygame.key.get_pressed()
-
-        if teclado[K_RIGHT] and self.PosX <= Width-40:
+        if teclado[K_RIGHT] and self.PosX <= Width-30-velocidad:
             self.PosX += velocidad
             self.cont += 1
             self.direc = True
 
-        if teclado[K_LEFT] and self.PosX >= 10:
+        if teclado[K_LEFT] and self.PosX >= 0+velocidad:
             self.PosX -= velocidad
             self.cont += 1
             self.direc = False
 
-        if teclado[K_DOWN] and self.PosY <= Height-110:
-            self.PosY += velocidad
-
-        if self.isJumping == False:
-            if teclado[K_UP] and self.PosY >= 0:
+        if not(self.isJumping):
+            if teclado[K_UP] and self.PosY >= 0+velocidad:
                 self.PosY -= velocidad
+            if teclado[K_DOWN] and self.PosY <= Height-100-velocidad:
+                self.PosY += velocidad
+            if teclado[K_SPACE]:
+                self.isJumping = True
+        else:
+            if self.JumpCount >= -10:
+                neg = 1
+                if self.JumpCount < 0:
+                    neg = -1
+                self.PosY-=(self.JumpCount**2)*0.5*neg
+                self.JumpCount -=1
+            else:
+                self.isJumping = False
+                self.JumpCount = 10
+        
 
     def movimiento(self, screen):
         if self.direc:
@@ -81,7 +92,6 @@ class Personaje:
     def anim (self):
 
         p = 6
-
 
         if self.cont == p:
             self.i = 0
@@ -98,33 +108,29 @@ class Personaje:
 
         return
 
-        
-    
-
-
 def main():
-    myfont = pygame.font.SysFont('Comic Sans MS', 30)
+    myfont = pygame.font.SysFont('Comic Sans MS', 28)
 
     ventana = pygame.display.set_mode((Width, Height))
-    pygame.display.set_caption("The Furrnite")
+    pygame.display.set_caption("Strategy Tragedy")
     clock = pygame.time.Clock()
-    Charac = Personaje(10,50)
-
-    while True:
+    Charac = Personaje(10,500)
+    run = True
+    while run:
         time = clock.tick(60)
         Charac.anim()
         Charac.teclado()
         ventana.fill((255, 255, 255))
         Charac.movimiento(ventana)
-        textsurface = myfont.render(str(Charac.PosX)+"-"+str(Charac.PosY), False, (0, 0, 0))
+        textsurface = myfont.render("Pos: "+str(Charac.PosX)+"-"+str(Charac.PosY)+" Vel: "+str(velocidad), False, (0, 0, 0))
         ventana.blit(textsurface,(0,0))
 
         for evento in pygame.event.get():
             if evento.type == QUIT:
-                pygame.quit()
-                sys.exit()
+                run = False
+                
         pygame.display.update()
-
+    pygame.quit()
 
 if __name__ == "__main__":
     pygame.init()
