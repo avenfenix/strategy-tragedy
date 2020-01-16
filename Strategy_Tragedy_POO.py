@@ -28,15 +28,15 @@ class Personaje:
     xixf[3] = (87, 0, 33, 100)
 
     Rxixf = {}
-    Rxixf[0] = (87, 0, 33, 100)
-    Rxixf[1] = (61, 0, 24, 100)
-    Rxixf[2] = (27, 0, 38, 100)
-    Rxixf[3] = (0, 0, 22, 100)
+    Rxixf[0] = (93, 0, 30, 100)
+    Rxixf[1] = (60, 0, 30, 100)
+    Rxixf[2] = (33, 0, 30, 100)
+    Rxixf[3] = (0, 0, 30, 100)
 
     def __init__(self,PosX,PosY):
         self.PosX = PosX
         self.PosY = PosY
-        self.drawed = self.draw("personaje/sprites/anim_mov.png", True)
+        self.drawed = self.draw("personaje/personaje_sprite.png", True)
         self.draw_inv = pygame.transform.flip(self.drawed,True,False)
 
     def draw (self , filename, transparent=False, conv=False):
