@@ -28,10 +28,10 @@ class Personaje:
     xixf[3] = (87, 0, 33, 100)
 
     Rxixf = {}
-    Rxixf[0] = (87, 0, 33, 100)
-    Rxixf[1] = (61, 0, 24, 100)
-    Rxixf[2] = (27, 0, 38, 100)
-    Rxixf[3] = (0, 0, 22, 100)
+    Rxixf[0] = (97, 0, 23, 100)
+    Rxixf[1] = (60, 0, 35, 100)
+    Rxixf[2] = (37, 0, 23, 100)
+    Rxixf[3] = (0, 0, 33, 100)
 
     def __init__(self,PosX,PosY):
         self.PosX = PosX
