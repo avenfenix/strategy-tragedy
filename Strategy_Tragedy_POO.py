@@ -36,7 +36,7 @@ class Personaje:
     def __init__(self,PosX,PosY):
         self.PosX = PosX
         self.PosY = PosY
-        self.drawed = self.draw("personaje/sprites/anim_mov.png", True)
+        self.drawed = self.draw("personaje/personaje_sprite.png", True)
         self.draw_inv = pygame.transform.flip(self.drawed,True,False)
 
     def draw (self , filename, transparent=False, conv=False):
