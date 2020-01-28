@@ -1,5 +1,8 @@
-
-
+import pygame, sys
+from pygame.locals import *
+display_width = 800
+display_height = 600
+velocidad = 2
 class Personaje:
     ### Sprites caminar derecha
     xixf = {}
@@ -40,7 +43,7 @@ class Personaje:
 
     def teclado(self):
         teclado = pygame.key.get_pressed()
-        if teclado[K_RIGHT] and self.PosX <= Width - 30 - velocidad:
+        if teclado[K_RIGHT] and self.PosX <= display_width - 30 - velocidad:
             self.PosX += velocidad
             self.cont += 1
             self.direc = True
@@ -53,7 +56,7 @@ class Personaje:
         if not (self.isJumping):
             if teclado[K_UP] and self.PosY >= 0 + velocidad:
                 self.PosY -= velocidad
-            if teclado[K_DOWN] and self.PosY <= Height - 100 - velocidad:
+            if teclado[K_DOWN] and self.PosY <= display_height - 100 - velocidad:
                 self.PosY += velocidad
             if teclado[K_SPACE]:
                 self.isJumping = True
