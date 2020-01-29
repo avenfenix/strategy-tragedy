@@ -4,30 +4,30 @@ display_width = 800
 display_height = 600
 velocidad = 2
 class Personaje:
-    ### Sprites caminar derecha
-    xixf = {}
-    xixf[0] = (0, 0, 26, 100)
-    xixf[1] = (27, 0, 31, 100)
-    xixf[2] = (61, 0, 24, 100)
-    xixf[3] = (87, 0, 33, 100)
-
-    ### Sprites Caminar izquierda
-    Rxixf = {}
-    Rxixf[0] = (97, 0, 23, 100)
-    Rxixf[1] = (60, 0, 35, 100)
-    Rxixf[2] = (37, 0, 23, 100)
-    Rxixf[3] = (0, 0, 33, 100)
 
     def __init__(self, PosX, PosY):
         self.PosX = PosX
         self.PosY = PosY
-        self.cont = 4
-        self.drawed = self.get_image("personaje/personaje_sprite.png", True)
-        self.draw_inv = pygame.transform.flip(self.drawed, True, False)
+        self.WalkCount = 4
+        self.draw_quieto = self.get_image("personaje/personaje-principal.png", True)
         self.isJumping = False
         self.JumpCount = 10
-        self.direc = True
-        self.i = 0
+        self.right = False
+        self.left = False
+
+        #Carga de Sprites
+        self.xixf = []
+        for i in range(1,23):
+            if i < 10:
+              p = "0"+str(i)
+            else:
+                p = str(i)
+            draw = self.get_image(f"personaje/corriendo/personaje-corriendo00{p}.png", True)
+            self.xixf.append(draw)
+        self.Rxixf = []
+        for i in range(0,22):
+            draw = pygame.transform.flip(self.xixf[i], True, False)
+            self.Rxixf.append(draw)
 
     def get_image(self, filename, transparent=False, conv=False):
         try:
@@ -43,20 +43,24 @@ class Personaje:
 
     def teclado(self):
         teclado = pygame.key.get_pressed()
-        if teclado[K_RIGHT] and self.PosX <= display_width - 30 - velocidad:
+        if teclado[K_RIGHT] and self.PosX <= display_width - 133 - velocidad:
             self.PosX += velocidad
-            self.cont += 1
-            self.direc = True
+            self.right = True
+            self.left = False
 
         if teclado[K_LEFT] and self.PosX >= 0 + velocidad:
             self.PosX -= velocidad
-            self.cont += 1
-            self.direc = False
+            self.left = True
+            self.right = False
+            
+        if not (teclado[K_RIGHT] or teclado[K_LEFT]):
+            self.right = False
+            self.left = False
 
         if not (self.isJumping):
             if teclado[K_UP] and self.PosY >= 0 + velocidad:
                 self.PosY -= velocidad
-            if teclado[K_DOWN] and self.PosY <= display_height - 100 - velocidad:
+            if teclado[K_DOWN] and self.PosY <= display_height - 133 - velocidad:
                 self.PosY += velocidad
             if teclado[K_SPACE]:
                 self.isJumping = True
@@ -72,26 +76,15 @@ class Personaje:
                 self.JumpCount = 10
 
     def movimiento(self, screen):
-        if self.direc:
-            screen.blit(self.drawed, (self.PosX, self.PosY), (self.xixf[self.i]))
-        if not self.direc:
-            screen.blit(self.draw_inv, (self.PosX, self.PosY), (self.Rxixf[self.i]))
-
-    def anim(self):
-
-        p = 6
-
-        if self.cont == p:
-            self.i = 0
-
-        if self.cont == p * 2:
-            self.i = 1
-
-        if self.cont == p * 3:
-            self.i = 2
-
-        if self.cont == p * 4:
-            self.i = 3
-            self.cont = 0
+        if self.WalkCount + 1 >= 66:
+            self.WalkCount = 0
+        if self.right:
+            screen.blit(self.xixf[self.WalkCount//3], (self.PosX, self.PosY))
+            self.WalkCount += 2
+        if self.left:
+            screen.blit(self.Rxixf[self.WalkCount//3], (self.PosX, self.PosY))
+            self.WalkCount += 2
+        if (self.left or self.right) == False:
+            screen.blit(self.draw_quieto, (self.PosX, self.PosY) )
 
         return

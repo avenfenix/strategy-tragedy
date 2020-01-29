@@ -93,11 +93,10 @@ def game_menu():
 def main():
     myfont = pygame.font.SysFont('Comic Sans MS', 28)
 
-    Charac = Personaje(10, 500)
+    Charac = Personaje(10, 466)
     run = True
     while run:
-        time = clock.tick(60)
-        Charac.anim()
+        time = clock.tick(75)
         Charac.teclado()
         gameDisplay.fill((255, 255, 255))
         Charac.movimiento(gameDisplay)
