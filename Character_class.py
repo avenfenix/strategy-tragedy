@@ -14,6 +14,7 @@ class Personaje:
         self.JumpCount = 10
         self.right = False
         self.left = False
+        self.lastDir = "Right"
 
         #Carga de Sprites
         self.xixf = []
@@ -47,11 +48,13 @@ class Personaje:
             self.PosX += velocidad
             self.right = True
             self.left = False
+            self.lastDir = "Right"
 
         if teclado[K_LEFT] and self.PosX >= 0 + velocidad:
             self.PosX -= velocidad
             self.left = True
             self.right = False
+            self.lastDir = "Left"
             
         if not (teclado[K_RIGHT] or teclado[K_LEFT]):
             self.right = False
@@ -84,7 +87,9 @@ class Personaje:
         if self.left:
             screen.blit(self.Rxixf[self.WalkCount//3], (self.PosX, self.PosY))
             self.WalkCount += 2
-        if (self.left or self.right) == False:
+        if (self.left or self.right) == False and self.lastDir == "Right":
             screen.blit(self.draw_quieto, (self.PosX, self.PosY) )
+        if (self.left or self.right) == False and self.lastDir == "Left":
+            screen.blit(pygame.transform.flip(self.draw_quieto,True, False), (self.PosX, self.PosY) )
 
         return
