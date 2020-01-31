@@ -21,11 +21,28 @@ def create_text(text, textFont, color, posX, posY):
 class GameMenu:
 
     def __init__(self, ):
+        self.image_Background = self.get_image("Graphics\Menu\Background_test.png")
+        self.image_Title = self.get_image("Graphics\Menu\Title.png")
+        self.image_button_SP = self.get_image("Graphics\Menu\SP_text.png")
+        self.image_button_SPhover = self.get_image("Graphics\Menu\SP_Hover_text.png")
+        self.image_button_Coop = self.get_image("Graphics\Menu\Coop_text.png")
+        self.image_button_Coophover = self.get_image("Graphics\Menu\Coop_Hover_text.png")
+        self.image_button_Prog = self.get_image("Graphics\Menu\Prog_text.png")
+        self.image_button_Proghover = self.get_image("Graphics\Menu\Prog_Hover_text.png")
+        self.image_button_Exit = self.get_image("Graphics\Menu\Exit_text.png")
+        self.image_button_Exithover = self.get_image("Graphics\Menu\Exit_Hover_text.png")
 
-        self.image_button_SP
-        self.image_button_Coop
-        self.image_button_Prog
-        self.image_button_Exit
+    def get_image(self, filename, transparent=False, conv=False):
+        try:
+            image = pygame.image.load(filename)
+        except pygame.error:
+            raise SystemExit
+        if transparent:
+            color = image.get_at((0, 0))
+            image.set_colorkey(color, RLEACCEL)
+        if conv:
+            image = image.convert()
+        return image
 
 def buttonMenu(text, w, h, x, y, imageNormal,imageHover,xText, action = None):
     mouse = pygame.mouse.get_pos()
@@ -67,6 +84,8 @@ def game_menu():
 
     menu = True
 
+    background = pygame.image.load("Graphics\Menu\Background_test.png")
+    gameDisplay.blit(background,(0,0))
     while menu:
 
         for event in pygame.event.get():
@@ -76,7 +95,6 @@ def game_menu():
                 quit()
 
         # Dibujar fondo
-        gameDisplay.fill(BLACK)
 
         # Crear y posicionar Titulo
         Title_image = pygame.image.load("Graphics/Menu/Title.png")
