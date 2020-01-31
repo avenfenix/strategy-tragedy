@@ -95,13 +95,13 @@ def game_menu():
         buttonMenu("",buttonWidth,buttonHeight, PosXbuttonMenu, YbuttonMenu, "Graphics\Menu\SP_text.png", "Graphics\Menu\SP_Hover_text.png", display_width/2, main)
 
         # Button Coop
-        buttonMenu("Cooperativo", buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation, "Graphics\Menu\Coop.png", "Graphics\Menu\Coop_Hover.png", display_width / 2, Coop)
+        buttonMenu("", buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation, "Graphics\Menu\Coop_text.png", "Graphics\Menu\Coop_Hover_text.png", display_width / 2, Coop)
 
         # Button Programar
-        buttonMenu("Programar", buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation*2, "Graphics\Menu\Prog.png", "Graphics\Menu\Prog_Hover.png", display_width / 2, Program)
+        buttonMenu("", buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation*2, "Graphics\Menu\Prog_text.png", "Graphics\Menu\Prog_Hover_text.png", display_width / 2, Program)
 
         # Button Exit
-        buttonMenu("Salir", buttonWidth, buttonHeight, display_width -60, display_height - 60, "Graphics\Menu\Exit.png", "Graphics\Menu\Exit_Hover.png", display_width -60, Quit)
+        buttonMenu("", buttonWidth, buttonHeight, display_width -60, display_height - 60, "Graphics\Menu\Exit_text.png", "Graphics\Menu\Exit_Hover_text.png", display_width -60, Quit)
 
         # Actualizacion pantalla
         pygame.display.update()
