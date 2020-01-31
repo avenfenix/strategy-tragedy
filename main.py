@@ -11,13 +11,6 @@ clock = pygame.time.Clock()
 
 velocidad = 2
 
-def create_text(text, textFont, color, posX, posY):
-    textSurf = textFont.render(text, True, color)
-    textRect = textSurf.get_rect()
-    textRect.center = (posX, posY)
-    gameDisplay.blit(textSurf,textRect)
-
-
 class GameMenu:
 
     def __init__(self, ):
@@ -44,24 +37,62 @@ class GameMenu:
             image = image.convert()
         return image
 
-def buttonMenu(text, w, h, x, y, imageNormal,imageHover,xText, action = None):
-    mouse = pygame.mouse.get_pos()
-
-    imgNormal = pygame.image.load(imageNormal)
-    imgHover = pygame.image.load(imageHover)
-    rect = imgNormal.get_rect()
-    rect.center = (x,y)
-    click = pygame.mouse.get_pressed()
-    if x - w/2 < mouse[0] < x + w/2 and y - h/2 < mouse[1] < y + h/2:
-        gameDisplay.blit( imgHover, rect)
-        if click[0] == 1 and action != None:
-            action()
+    def buttonMenu (self, w,h,x,y, imageNormal,imageHover, action = None):
+        mouse = pygame.mouse.get_pos()
+        click = pygame.mouse.get_pressed()
 
 
-    else:
-        gameDisplay.blit( imgNormal, rect)
+        temp = self.getCenter (imageNormal, (x,y))
 
-    create_text(text, smallText, WHITE, xText, y)
+        if x - w / 2 < mouse[0] < x + w / 2 and y - h / 2 < mouse[1] < y + h / 2:
+            gameDisplay.blit(imageHover, temp )
+            if click[0] == 1 and action != None:
+                action()
+        else:
+            gameDisplay.blit(imageNormal, temp)
+
+    def getCenter (self, _image, position ):
+        rect = _image.get_rect()
+        rect.center = position
+        return rect
+
+    def loop(self):
+
+        menu = True
+
+        gameDisplay.blit(self.image_Background, (0, 0))
+        gameDisplay.blit(self.image_Title, self.getCenter(self.image_Title, (display_width / 2, display_height / 4)))
+
+        buttonWidth = 200
+        buttonHeight = 80
+        PosXbuttonMenu = (display_width) / 2
+        YbuttonMenu = (display_height) / 2 + 10
+        separation = 100
+
+        while menu:
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    menu = False
+                    quit()
+
+
+            # Button Single Player
+            self.buttonMenu(buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu, self.image_button_SP,self.image_button_SPhover,  main)
+
+            # Button Coop
+            self.buttonMenu(buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation,self.image_button_Coop,self.image_button_Coophover, Coop)
+
+            # Button Programar
+            self.buttonMenu(buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation * 2, self.image_button_Prog, self.image_button_Proghover, Program)
+
+            # Button Exit
+            self.buttonMenu(80, 80, display_width - 60, display_height - 60, self.image_button_Exit, self.image_button_Exithover, Quit)
+
+            # Actualizacion pantalla
+            pygame.display.update()
+            clock.tick(30)
 
 
 def Single_Player():
@@ -78,53 +109,6 @@ def Program ():
 def Quit():
     pygame.quit()
     quit()
-
-
-def game_menu():
-
-    menu = True
-
-    background = pygame.image.load("Graphics\Menu\Background_test.png")
-    gameDisplay.blit(background,(0,0))
-    while menu:
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                menu = False
-                quit()
-
-        # Dibujar fondo
-
-        # Crear y posicionar Titulo
-        Title_image = pygame.image.load("Graphics/Menu/Title.png")
-        rect = Title_image.get_rect()
-        rect.center = (display_width/2, display_height / 4)
-        gameDisplay.blit(Title_image,rect)
-
-        # Parametros Botones
-        buttonWidth = 200
-        buttonHeight = 80
-        PosXbuttonMenu = (display_width ) / 2
-        YbuttonMenu = (display_height) / 2 + 10
-        separation = 100
-
-        # Button Single Player
-        buttonMenu("",buttonWidth,buttonHeight, PosXbuttonMenu, YbuttonMenu, "Graphics\Menu\SP_text.png", "Graphics\Menu\SP_Hover_text.png", display_width/2, main)
-
-        # Button Coop
-        buttonMenu("", buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation, "Graphics\Menu\Coop_text.png", "Graphics\Menu\Coop_Hover_text.png", display_width / 2, Coop)
-
-        # Button Programar
-        buttonMenu("", buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation*2, "Graphics\Menu\Prog_text.png", "Graphics\Menu\Prog_Hover_text.png", display_width / 2, Program)
-
-        # Button Exit
-        buttonMenu("", buttonWidth, buttonHeight, display_width -60, display_height - 60, "Graphics\Menu\Exit_text.png", "Graphics\Menu\Exit_Hover_text.png", display_width -60, Quit)
-
-        # Actualizacion pantalla
-        pygame.display.update()
-        clock.tick(30)
-
 
 
 
@@ -159,5 +143,5 @@ if __name__ == "__main__":
     smallText = pygame.font.SysFont('Comic Sans MS', 23)
 
     # Menu inicial
-    game_menu()
-
+    Menu = GameMenu()
+    Menu.loop()
