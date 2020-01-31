@@ -1,13 +1,14 @@
 import pygame, sys
 from pygame.locals import *
-display_width = 800
-display_height = 600
+vec = pygame.math.Vector2
+
 velocidad = 2
 class Personaje:
 
     def __init__(self, PosX, PosY):
-        self.PosX = PosX
-        self.PosY = PosY
+        self.Pos = vec(PosX,PosY)
+        self.Vel = vec(2,0)
+        self.Acc = vec(0,0)
         self.WalkCount = 4
         self.draw_quieto = self.get_image("personaje/personaje-principal.png", True)
         self.isJumping = False
@@ -43,15 +44,27 @@ class Personaje:
         return image
 
     def teclado(self):
+
+        self.Acc = vec(0,0.5)
+
+
+        self.Acc.x += self.Vel.x * (-0.12)
+        self.Vel.y += self.Acc.y
+        self.Pos.y += self.Vel.y + 0.5*self.Acc.y
+
         teclado = pygame.key.get_pressed()
-        if teclado[K_RIGHT] and self.PosX <= display_width - 133 - velocidad:
-            self.PosX += velocidad
+
+        if self.Pos.y > 700:
+            self.Pos.y = 700
+
+        if teclado[K_RIGHT] :
+            self.Pos.x += velocidad
             self.right = True
             self.left = False
             self.lastDir = "Right"
 
-        if teclado[K_LEFT] and self.PosX >= 0 + velocidad:
-            self.PosX -= velocidad
+        if teclado[K_LEFT] :
+            self.Pos.x -= velocidad
             self.left = True
             self.right = False
             self.lastDir = "Left"
@@ -61,10 +74,6 @@ class Personaje:
             self.left = False
 
         if not (self.isJumping):
-            if teclado[K_UP] and self.PosY >= 0 + velocidad:
-                self.PosY -= velocidad
-            if teclado[K_DOWN] and self.PosY <= display_height - 133 - velocidad:
-                self.PosY += velocidad
             if teclado[K_SPACE]:
                 self.isJumping = True
         else:
@@ -72,24 +81,26 @@ class Personaje:
                 neg = 1
                 if self.JumpCount < 0:
                     neg = -1
-                self.PosY -= (self.JumpCount ** 2) * 0.5 * neg
+                self.Pos.y -= (self.JumpCount ** 2) * 0.5 * neg
                 self.JumpCount -= 1
             else:
                 self.isJumping = False
                 self.JumpCount = 10
 
     def movimiento(self, screen):
+
+
         if self.WalkCount + 1 >= 66:
             self.WalkCount = 0
         if self.right:
-            screen.blit(self.xixf[self.WalkCount//3], (self.PosX, self.PosY))
+            screen.blit(self.xixf[self.WalkCount//3], (self.Pos.x, self.Pos.y))
             self.WalkCount += 2
         if self.left:
-            screen.blit(self.Rxixf[self.WalkCount//3], (self.PosX, self.PosY))
+            screen.blit(self.Rxixf[self.WalkCount//3], (self.Pos.x, self.Pos.y))
             self.WalkCount += 2
         if (self.left or self.right) == False and self.lastDir == "Right":
-            screen.blit(self.draw_quieto, (self.PosX, self.PosY) )
+            screen.blit(self.draw_quieto, (self.Pos.x, self.Pos.y) )
         if (self.left or self.right) == False and self.lastDir == "Left":
-            screen.blit(pygame.transform.flip(self.draw_quieto,True, False), (self.PosX, self.PosY) )
+            screen.blit(pygame.transform.flip(self.draw_quieto,True, False), (self.Pos.x, self.Pos.y) )
 
         return

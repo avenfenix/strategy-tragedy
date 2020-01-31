@@ -123,7 +123,7 @@ def main():
         Charac.teclado()
         gameDisplay.fill((255, 255, 255))
         Charac.movimiento(gameDisplay)
-        textsurface = myfont.render("Pos: " + str(Charac.PosX) + "-" + str(Charac.PosY) + " Vel: " + str(velocidad),
+        textsurface = myfont.render("Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad),
                                     False, (0, 0, 0))
         gameDisplay.blit(textsurface, (0, 0))
 
