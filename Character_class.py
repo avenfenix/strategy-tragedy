@@ -60,15 +60,22 @@ class Personaje:
         if self.Pos.y > 566:
             self.Pos.y = 566
 
+
         if teclado[K_RIGHT]:
-            self.Pos.x += velocidad
+            if teclado[K_LSHIFT]:
+                self.Pos.x += velocidad*3
+            else:
+                self.Pos.x += velocidad
             # self.Acc.x+= 0.5
             self.right = True
             self.left = False
             self.lastDir = "Right"
 
         if teclado[K_LEFT]:
-            self.Pos.x -= velocidad
+            if teclado[K_LSHIFT]:
+                self.Pos.x -= velocidad*3
+            else:
+                self.Pos.x -= velocidad
             # self.Acc.x+= -0.5
             self.left = True
             self.right = False

@@ -1,15 +1,14 @@
 import pygame, sys
 from pygame.locals import *
 
-def get_image(filename, transparent=False, conv=False):
+def get_image(filename, conv_alpha = True):
     try:
         image = pygame.image.load(filename)
     except pygame.error:
         raise SystemExit
-    if transparent:
-        color = image.get_at((0, 0))
-        image.set_colorkey(color, RLEACCEL)
-    if conv:
+    if conv_alpha:
+        image = image.convert_alpha()
+    else:
         image = image.convert()
     return image
 

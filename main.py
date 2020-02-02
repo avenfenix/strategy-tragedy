@@ -16,7 +16,7 @@ class Game:
     def __init__(self, ):
 
         # Cargar imagenes del Menu
-        self.image_Background = get_image("Graphics\Menu\Background_test.png")
+        self.image_Background = get_image("Graphics\Menu\Background_test.png", False)
         self.image_Title = get_image("Graphics\Menu\Title.png")
         self.image_button_SP = get_image("Graphics\Menu\SP_text.png")
         self.image_button_SPhover = get_image("Graphics\Menu\SP_Hover_text.png")
@@ -103,6 +103,7 @@ def main():
     myfont = pygame.font.SysFont('Comic Sans MS', 28)
     Maps = Maps_Sp()
 
+    Background_test = get_image("Graphics\SP\Background.png", False)
     #Maps.load_map1()
 
     Charac = Personaje(10, 466)
@@ -111,7 +112,8 @@ def main():
     while run:
         time = clock.tick(75)
         Charac.teclado()
-        gameDisplay.fill((255, 255, 255))
+        gameDisplay.blit(Background_test, (0, 0))
+
         Charac.movimiento(gameDisplay)
         textsurface = myfont.render("Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad),False, (0, 0, 0))
         gameDisplay.blit(textsurface, (0, 0))
