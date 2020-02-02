@@ -1,6 +1,6 @@
 import pygame, sys
 from pygame.locals import *
-from Character_class import Personaje
+from objects import Personaje
 from colors import *
 
 display_width = 900
