@@ -115,7 +115,7 @@ def main():
         gameDisplay.blit(Background_test, (0, 0))
 
         Charac.movimiento(gameDisplay)
-        textsurface = myfont.render("Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad),False, (0, 0, 0))
+        textsurface = myfont.render("Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad),False, WHITE)
         gameDisplay.blit(textsurface, (0, 0))
 
         for evento in pygame.event.get():
