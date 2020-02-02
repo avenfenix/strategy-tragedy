@@ -51,20 +51,23 @@ class Personaje:
         self.Acc.x += self.Vel.x * (-0.12)
         self.Vel.y += self.Acc.y
         self.Pos.y += self.Vel.y + 0.5*self.Acc.y
+        
 
         teclado = pygame.key.get_pressed()
 
-        if self.Pos.y > 700:
-            self.Pos.y = 700
+        if self.Pos.y > 566:
+            self.Pos.y = 566
 
         if teclado[K_RIGHT] :
             self.Pos.x += velocidad
+            #self.Acc.x+= 0.5
             self.right = True
             self.left = False
             self.lastDir = "Right"
 
         if teclado[K_LEFT] :
             self.Pos.x -= velocidad
+            #self.Acc.x+= -0.5
             self.left = True
             self.right = False
             self.lastDir = "Left"
@@ -73,19 +76,8 @@ class Personaje:
             self.right = False
             self.left = False
 
-        if not (self.isJumping):
-            if teclado[K_SPACE]:
-                self.isJumping = True
-        else:
-            if self.JumpCount >= -10:
-                neg = 1
-                if self.JumpCount < 0:
-                    neg = -1
-                self.Pos.y -= (self.JumpCount ** 2) * 0.5 * neg
-                self.JumpCount -= 1
-            else:
-                self.isJumping = False
-                self.JumpCount = 10
+        if teclado[K_SPACE]:
+            self.Vel.y = -12
 
     def movimiento(self, screen):
 
