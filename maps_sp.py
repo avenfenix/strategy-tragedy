@@ -1,5 +1,5 @@
 import pygame, sys
-from Character_class import *
+from objects import *
 from colors import *
 
 class Maps_Sp:
