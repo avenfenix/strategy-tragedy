@@ -1,11 +1,8 @@
 import pygame, sys
 from pygame.locals import *
 from colors import *
-
 vec = pygame.math.Vector2
-
 velocidad = 2
-
 
 class Personaje:
 
@@ -13,13 +10,14 @@ class Personaje:
         self.Pos = vec(PosX, PosY)
         self.Vel = vec(2, 0)
         self.Acc = vec(0, 0)
-        self.WalkCount = 4
+        self.WalkCount = 0
         self.draw_quieto = self.get_image("personaje/personaje-principal.png", True)
-        self.isJumping = False
-        self.JumpCount = 10
         self.right = False
         self.left = False
         self.lastDir = "Right"
+        self.hitbox = self.draw_quieto.get_rect()
+        self.Floor = False
+        
 
         # Carga de Sprites
         self.xixf = []
@@ -35,7 +33,7 @@ class Personaje:
             draw = pygame.transform.flip(self.xixf[i], True, False)
             self.Rxixf.append(draw)
 
-    def get_image(self, filename, transparent=False, conv=False):
+    def get_image(self, filename, transparent=False, convertir=False):
         try:
             image = pygame.image.load(filename)
         except pygame.error:
@@ -43,14 +41,13 @@ class Personaje:
         if transparent:
             color = image.get_at((0, 0))
             image.set_colorkey(color, RLEACCEL)
-        if conv:
+        if convertir:
             image = image.convert()
         return image
 
     def teclado(self):
 
         self.Acc = vec(0, 0.5)
-
         self.Acc.x += self.Vel.x * (-0.12)
         self.Vel.y += self.Acc.y
         self.Pos.y += self.Vel.y + 0.5 * self.Acc.y
@@ -59,14 +56,15 @@ class Personaje:
 
         if self.Pos.y > 566:
             self.Pos.y = 566
-
+            self.Floor = True
+        else:
+            self.Floor = False
 
         if teclado[K_RIGHT]:
             if teclado[K_LSHIFT]:
                 self.Pos.x += velocidad*3
             else:
                 self.Pos.x += velocidad
-            # self.Acc.x+= 0.5
             self.right = True
             self.left = False
             self.lastDir = "Right"
@@ -76,17 +74,20 @@ class Personaje:
                 self.Pos.x -= velocidad*3
             else:
                 self.Pos.x -= velocidad
-            # self.Acc.x+= -0.5
             self.left = True
             self.right = False
             self.lastDir = "Left"
 
-        if not (teclado[K_RIGHT] or teclado[K_LEFT]):
+        if not (teclado[K_RIGHT] or teclado[K_LEFT]) or  (teclado[K_RIGHT] and teclado[K_LEFT]) :
             self.right = False
             self.left = False
 
-        if teclado[K_SPACE]:
-            self.Vel.y = -12
+        if self.Floor:
+            if teclado[K_SPACE]:
+                self.Vel.y = -10
+            
+
+        self.hitbox.midbottom = self.Pos + vec(0,self.hitbox.h)
 
     def movimiento(self, screen):
 
@@ -105,7 +106,7 @@ class Personaje:
 
         return
 
-class Platform(pygame.sprite.Sprite):
+class Platform():
     def __init__(self, x, y, w, h):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.Surface((w, h))

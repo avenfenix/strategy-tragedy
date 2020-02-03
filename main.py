@@ -1,4 +1,4 @@
-from Character_class import *
+from objects import *
 from maps_sp import *
 from helpers import *
 # Se importan todas las clases necesarias en Chracter_class y helpers
