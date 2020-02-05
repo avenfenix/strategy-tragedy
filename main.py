@@ -3,11 +3,7 @@ from maps_sp import *
 from helpers import *
 # Se importan todas las clases necesarias en Chracter_class y helpers
 
-display_width = 900
-display_height = 700
-gameDisplay = pygame.display.set_mode((display_width, display_height))
-pygame.display.set_caption("Strategy Tragedy")
-clock = pygame.time.Clock()
+
 
 velocidad = 2
 
@@ -93,7 +89,7 @@ class Game:
 
             for event in pygame.event.get():
 
-                N1.is_clicked(event, main)
+                N1.is_clicked(event, self.main)
                 N2.is_clicked(event)
                 N3.is_clicked(event)
                 N4.is_clicked(event)
@@ -259,7 +255,75 @@ class Game:
     def back (self):
         self.selector = False
 
+    def main(self):
+        myfont = pygame.font.SysFont('Comic Sans MS', 28)
+        # Maps = Maps_Sp()
 
+        Background_test = get_image("Graphics\SP\Background.png", False)
+        # Maps.load_map1()
+
+        Charac = Personaje(0, 466)
+        Cuadrado = Platform(100, 600, 100, 100)
+        crearColision = colisiones()
+        self.run = True
+        while self.run:
+            time = clock.tick(75)
+            Charac.teclado()
+            gameDisplay.blit(Background_test, (0, 0))
+            Cuadrado.draw(gameDisplay)
+            check = crearColision.distance_for_player(Charac, Cuadrado)
+            # distance = crearColision.distance_for_objects(Charac,Cuadrado)
+            colision = crearColision.collide_player(Charac, Cuadrado)
+            print(colision)
+            Charac.movimiento(gameDisplay)
+            textsurface = myfont.render(
+                "Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad), False, WHITE)
+            gameDisplay.blit(textsurface, (0, 0))
+
+            for evento in pygame.event.get():
+                if evento.type == pygame.KEYDOWN:
+                    if evento.key == pygame.K_p:
+                        self.pause = True
+                        self.Pause()
+
+                if evento.type == QUIT:
+                    self.run = False
+
+            pygame.display.update()
+
+    # helpers(?)
+    def Pause(self):
+        create_text("Pausa", Title, WHITE, (900 / 2, 50), gameDisplay)
+        smallPauseText = pygame.font.SysFont('Comic Sans MS', 23)
+
+        CONTINUE = Button_color((display_width / 2, 50), (200, 80), WHITE, GRAY, "Continuar", BLACK, smallPauseText,gameDisplay)
+        QUIT = Button_color((display_width / 2, 150), (200, 80), WHITE, GRAY, "Salir", BLACK, smallPauseText,gameDisplay)
+
+        while self.pause:
+            for event in pygame.event.get():
+
+                CONTINUE.is_clicked(event,self.continuegame)
+                QUIT.is_clicked(event, self.back_mainmenu)
+
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            mouse = pygame.mouse.get_pos()
+            # gameDisplay.fill(white)
+            CONTINUE.draw(mouse)
+            QUIT.draw(mouse)
+
+            pygame.display.update()
+            clock.tick(15)
+
+    def continuegame (self):
+        self.pause = False
+
+    def back_mainmenu(self):
+        self.pause = False
+        self.run = False
+        self.selector = False
 
 
 def Single_Player():
@@ -280,36 +344,7 @@ def Quit():
 
 
 
-def main():
-    myfont = pygame.font.SysFont('Comic Sans MS', 28)
-    #Maps = Maps_Sp()
 
-    Background_test = get_image("Graphics\SP\Background.png", False)
-    #Maps.load_map1()
-
-    Charac = Personaje(0, 466)
-    Cuadrado = Platform(100,600,100,100)
-    crearColision = colisiones()
-    run = True
-    while run: 
-        time = clock.tick(75)
-        Charac.teclado()
-        gameDisplay.blit(Background_test, (0, 0))
-        Cuadrado.draw(gameDisplay)
-        check = crearColision.distance_for_player(Charac,Cuadrado)
-        #distance = crearColision.distance_for_objects(Charac,Cuadrado)
-        colision = crearColision.collide_player(Charac,Cuadrado)
-        print(colision)
-        Charac.movimiento(gameDisplay)
-        textsurface = myfont.render("Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad),False, WHITE)
-        gameDisplay.blit(textsurface, (0, 0))
-
-        for evento in pygame.event.get():
-            if evento.type == QUIT:
-                run = False
-
-        pygame.display.update()
-    Quit()
 
 
 if __name__ == "__main__":
