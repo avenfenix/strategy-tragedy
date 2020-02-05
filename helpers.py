@@ -1,6 +1,13 @@
 import pygame, sys
 from pygame.locals import *
 
+
+display_width = 900
+display_height = 700
+gameDisplay = pygame.display.set_mode((display_width, display_height))
+pygame.display.set_caption("Strategy Tragedy")
+clock = pygame.time.Clock()
+
 def get_image(filename, conv_alpha = True):
     try:
         image = pygame.image.load(filename)
@@ -23,6 +30,7 @@ def create_text(text, textFont, color, position,display):
     textRect.center = position
     display.blit(textSurf, textRect)
 
+
 class Button_color:
     def __init__(self, position, size, colorNormal, colorHover, text,textColor, font,  display):
 
@@ -39,7 +47,7 @@ class Button_color:
         self.hover = False
 
 
-        textSurf = font.render(text, True, (0,0,0))
+        textSurf = font.render(text, True, textColor)
         textRect = textSurf.get_rect()
         textRect.center = self.rect.center
         self.surf.blit(textSurf, textRect)
