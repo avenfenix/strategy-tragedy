@@ -27,8 +27,11 @@ class Game:
         self.image_button_Exit = get_image("Graphics\Menu\Exit_text.png")
         self.image_button_Exithover = get_image("Graphics\Menu\Exit_Hover_text.png")
 
-        self.Button_SinglePlayer = Button_color( (display_width/2, (display_height) / 2 + 10), (200,80), WHITE, LIGHTGRAY, "test", smallText, BLACK, gameDisplay )
-
+        #Inicializar Botones
+        self.Button_SinglePlayer = Button_image( (display_width/2, (display_height) / 2 + 10), (200,80), self.image_button_SP, self.image_button_SPhover, gameDisplay )
+        self.Button_Coop = Button_image( (display_width/2, (display_height) / 2 + 110), (200,80), self.image_button_Coop, self.image_button_Coophover, gameDisplay )
+        self.Button_Progra = Button_image( (display_width/2, (display_height) / 2 + 210), (200,80), self.image_button_Prog, self.image_button_Proghover, gameDisplay )
+        self.Button_Exit = Button_image( (display_width - 50, (display_height) - 50), (80,80), self.image_button_Exit, self.image_button_Exithover, gameDisplay )
 
         self.selector = False
 
@@ -42,7 +45,6 @@ class Game:
     def buttonMenu_color(self, text, w, h, x, y, colorNormal, colorHover, action=None):
 
         mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
 
         rect1 = pygame.Rect (x,y,w,h)
 
@@ -61,9 +63,8 @@ class Game:
     # Funcion general para generar botones con fondo de imagen
     def buttonMenu_image (self, w,h,x,y, imageNormal,imageHover, action = None):
         mouse = pygame.mouse.get_pos()
-        click = pygame.mouse.get_pressed()
 
-        temp = getCenter (imageNormal, (x,y))
+        temp = getCenter(imageNormal, (x,y))
 
         if x - w / 2 < mouse[0] < x + w / 2 and y - h / 2 < mouse[1] < y + h / 2:
             gameDisplay.blit(imageHover, temp)
@@ -80,12 +81,6 @@ class Game:
 
         menu = True
 
-        buttonWidth = 200
-        buttonHeight = 80
-        PosXbuttonMenu = (display_width) / 2
-        YbuttonMenu = (display_height) / 2 + 10
-        separation = 100
-
         gameDisplay.blit(self.image_Background, (0, 0))
 
         while menu:
@@ -95,7 +90,13 @@ class Game:
             gameDisplay.blit(self.image_Title, getCenter(self.image_Title, (display_width / 2, display_height / 4)))
 
             for event in pygame.event.get():
+
+                #Acciones de los botones al ser clickeados
                 self.Button_SinglePlayer.is_clicked(event, main)
+                self.Button_Coop.is_clicked(event)
+                self.Button_Progra.is_clicked(event)
+                self.Button_Exit.is_clicked(event,Quit)
+
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     menu = False
@@ -103,19 +104,11 @@ class Game:
 
 
 
-            # Button Single Player
+            # Dibujar botones
             self.Button_SinglePlayer.draw(mouse)
-
-            #self.buttonMenu_image(buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu, self.image_button_SP,self.image_button_SPhover, self.Select_LevelSP)
-
-            # Button Coop
-            #self.buttonMenu_image(buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation,self.image_button_Coop,self.image_button_Coophover, Coop)
-
-            # Button Programar
-            #self.buttonMenu_image(buttonWidth, buttonHeight, PosXbuttonMenu, YbuttonMenu + separation * 2, self.image_button_Prog, self.image_button_Proghover, Program)
-
-            # Button Exit
-            #self.buttonMenu_image(80, 80, display_width - 60, display_height - 60, self.image_button_Exit, self.image_button_Exithover, Quit)
+            self.Button_Coop.draw(mouse)
+            self.Button_Progra.draw(mouse)
+            self.Button_Exit.draw(mouse)
 
 
     def Select_LevelSP (self):
