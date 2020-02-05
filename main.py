@@ -287,18 +287,19 @@ def main():
     Background_test = get_image("Graphics\SP\Background.png", False)
     #Maps.load_map1()
 
-    Charac = Personaje(10, 466)
+    Charac = Personaje(0, 466)
     Cuadrado = Platform(100,600,100,100)
     crearColision = colisiones()
     run = True
-    while run:
+    while run: 
         time = clock.tick(75)
         Charac.teclado()
         gameDisplay.blit(Background_test, (0, 0))
         Cuadrado.draw(gameDisplay)
-        check = crearColision.check_distance(Charac,Cuadrado)
-        distance = crearColision.distance_for_objects(Charac,Cuadrado)
-        print(distance)
+        check = crearColision.distance_for_player(Charac,Cuadrado)
+        #distance = crearColision.distance_for_objects(Charac,Cuadrado)
+        colision = crearColision.collide_player(Charac,Cuadrado)
+        print(colision)
         Charac.movimiento(gameDisplay)
         textsurface = myfont.render("Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad),False, WHITE)
         gameDisplay.blit(textsurface, (0, 0))
