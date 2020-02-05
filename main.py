@@ -179,13 +179,17 @@ def main():
     #Maps.load_map1()
 
     Charac = Personaje(10, 466)
-    Plataforma = Platform (0,700,900,20)
+    Cuadrado = Platform(100,600,100,100)
+    crearColision = colisiones()
     run = True
     while run:
         time = clock.tick(75)
         Charac.teclado()
         gameDisplay.blit(Background_test, (0, 0))
-
+        Cuadrado.draw(gameDisplay)
+        check = crearColision.check_distance(Charac,Cuadrado)
+        distance = crearColision.distance_for_objects(Charac,Cuadrado)
+        print(distance)
         Charac.movimiento(gameDisplay)
         textsurface = myfont.render("Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad),False, WHITE)
         gameDisplay.blit(textsurface, (0, 0))

@@ -86,8 +86,8 @@ class Personaje:
             if teclado[K_SPACE]:
                 self.Vel.y = -10
             
+        self.hitbox.topleft = self.Pos
 
-        self.hitbox.midbottom = self.Pos + vec(0,self.hitbox.h)
 
     def movimiento(self, screen):
 
@@ -114,3 +114,52 @@ class Platform():
         self.rect = self.image.get_rect()
         self.rect.x = x
         self.rect.y = y
+        self.rect.w = w
+        self.rect.h = h
+    def draw(self,screen):
+        screen.blit(screen, (self.rect.x, self.rect.y))
+
+class colisiones:
+    def __init__(self):
+        print("colision")
+    #para el personaje(target1)
+    def check_distance(self, target1, target2):
+        col_= False
+        self.h1 = target1.hitbox.h
+        self.w1 = target1.hitbox.w
+        self.h2 = target2.rect.h
+        self.w2 = target2.rect.w
+        self.x1 =  target1.hitbox.center[0]
+        self.y1 =  target1.hitbox.center[1]
+        self.x2 =  target2.rect.center[0]
+        self.y2 =  target2.rect.center[1]
+        distance = ((self.x1-self.x2)**2 + (self.y1-self.y2)**2)**(1/2)
+        max_distance = (((self.h1+self.h2)/2)**2 + ((self.w1+self.w2)/2)**2)**(1/2)
+        if (abs(self.x1-self.x2) == (self.w1+self.w2)/2):
+            if distance < max_distance:
+                col_ = True
+        elif (abs(self.y1-self.y2) == (self.w1+self.w2)/2):
+            if distance < max_distance:
+                col_ = True
+        return col_
+    #para cualquier objeto
+    def distance_for_objects(self, target1, target2):
+        col_= False
+        self.h1 = target1.hitbox.h
+        self.w1 = target1.hitbox.w
+        self.h2 = target2.rect.h
+        self.w2 = target2.rect.w
+        self.x1 =  target1.hitbox.center[0]
+        self.y1 =  target1.hitbox.center[1]
+        self.x2 =  target2.rect.center[0]
+        self.y2 =  target2.rect.center[1]
+        distance = ((self.x1-self.x2)**2 + (self.y1-self.y2)**2)**(1/2)
+        max_distance = (((self.h1+self.h2)/2)**2 + ((self.w1+self.w2)/2)**2)**(1/2)
+        if (abs(self.x1-self.x2) == (self.w1+self.w2)/2):
+            if distance < max_distance:
+                col_ = True
+        elif (abs(self.y1-self.y2) == (self.w1+self.w2)/2):
+            if distance < max_distance:
+                col_ = True
+
+        return "colisiona: " + str(col_)+ " "+str((self.x1, self.y1)) +str((self.x2, self.y2)) + str(distance) +" "+ str(max_distance)

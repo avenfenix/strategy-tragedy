@@ -1,22 +1,52 @@
-class colisiones:
-    def __init__(self):
-        print("colision")
-    def check_col(self,target1, target2):
-        col_x = False
-        col_y = False
-        col_ = False
-        self.pos1x = target1.hitbox.centerx - target1.hitbox.w/2 
-        self.pos2x = target2.rect.left
-        self.lenght2 = target2.rect.w
-        self.pos1y = target1.hitbox.bottom - 10
-        self.pos2y = target2.rect.top
-        self.height2 = target2.rect.h
-        if self.pos1x > self.pos2x and self.pos1x < self.pos2x + self.lenght2:
-            col_x = True
-        if self.pos1y > self.pos2y:
-            col_y = True
-        if col_y and col_x:
+def check_distance(self, target1, target2):
+    col_= False
+    self.h1 = target1.hitbox.h
+    self.w1 = target1.hitbox.w
+    self.h2 = target2.rect.h
+    self.w2 = target2.rect.w
+    self.x1 =  target1.hitbox.center[0]
+    self.y1 =  target1.hitbox.center[1]
+    self.x2 =  target2.rect.center[0]
+    self.y2 =  target2.rect.center[1]
+    distance = ((self.x1-self.x2)**2 + (self.y1-self.y2)**2)**(1/2)
+    max_distance = (((self.h1+self.h2)/2)**2 + ((self.w1+self.w2)/2)**2)**(1/2)
+    if (abs(self.x1-self.x2) == (self.w1+self.w2)/2):
+        if distance < max_distance:
             col_ = True
-        return col_ 
-    def check_distance(self, target1, target2):
-        return
+    elif (abs(self.y1-self.y2) == (self.w1+self.w2)/2):
+        if distance < max_distance:
+            col_ = True
+    return col_
+    #para cualquier objeto
+def distance_for_objects(self, target1, target2):
+    col_= False
+    self.h1 = target1.hitbox.h
+    self.w1 = target1.hitbox.w
+    self.h2 = target2.rect.h
+    self.w2 = target2.rect.w
+    self.x1 =  target1.hitbox.center[0]
+    self.y1 =  target1.hitbox.center[1]
+    self.x2 =  target2.rect.center[0]
+    self.y2 =  target2.rect.center[1]
+    distance = ((self.x1-self.x2)**2 + (self.y1-self.y2)**2)**(1/2)
+    max_distance = (((self.h1+self.h2)/2)**2 + ((self.w1+self.w2)/2)**2)**(1/2)
+    if (abs(self.x1-self.x2) == (self.w1+self.w2)/2):
+        if distance < max_distance:
+            col_ = True
+    elif (abs(self.y1-self.y2) == (self.w1+self.w2)/2):
+        if distance < max_distance:
+            col_ = True
+
+    return "colisiona: " + str(col_)+ " "+str((self.x1, self.y1)) +str((self.x2, self.y2)) + str(distance) +" "+ str(max_distance)
+Charac = Personaje(10, 466)
+Cuadrado = Platform(100,600,100,100)
+crearColision = colisiones()
+run = True
+while run:
+    time = clock.tick(75)
+    Charac.teclado()
+    gameDisplay.blit(Background_test, (0, 0))
+    Cuadrado.draw(gameDisplay)
+    check = crearColision.check_distance(Charac,Cuadrado)
+    distance = crearColision.distance_for_objects(Charac,Cuadrado)
+    print(distance)
