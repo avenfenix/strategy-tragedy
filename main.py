@@ -27,121 +27,230 @@ class Game:
         self.image_button_Exit = get_image("Graphics\Menu\Exit_text.png")
         self.image_button_Exithover = get_image("Graphics\Menu\Exit_Hover_text.png")
 
-        #Inicializar Botones
-        self.Button_SinglePlayer = Button_image( (display_width/2, (display_height) / 2 + 10), (200,80), self.image_button_SP, self.image_button_SPhover, gameDisplay )
-        self.Button_Coop = Button_image( (display_width/2, (display_height) / 2 + 110), (200,80), self.image_button_Coop, self.image_button_Coophover, gameDisplay )
-        self.Button_Progra = Button_image( (display_width/2, (display_height) / 2 + 210), (200,80), self.image_button_Prog, self.image_button_Proghover, gameDisplay )
-        self.Button_Exit = Button_image( (display_width - 50, (display_height) - 50), (80,80), self.image_button_Exit, self.image_button_Exithover, gameDisplay )
-
         self.selector = False
-
-
-    #Crear y Posicionar Texto
-
-
-
-    # Generar boton de color con texto
-
-    def buttonMenu_color(self, text, w, h, x, y, colorNormal, colorHover, action=None):
-
-        mouse = pygame.mouse.get_pos()
-
-        rect1 = pygame.Rect (x,y,w,h)
-
-        rect1.center = (x,y)
-
-        if x - w / 2 < mouse[0] < x + w / 2 and y - h / 2 < mouse[1] < y + h / 2:
-            pygame.draw.rect(gameDisplay, colorHover, rect1)
-            if action != None:
-                action()
-            else:
-                pygame.draw.rect(gameDisplay, colorNormal, rect1)
-
-        self.create_text( text, smallText, BLACK, (x,y))
-
-
-    # Funcion general para generar botones con fondo de imagen
-    def buttonMenu_image (self, w,h,x,y, imageNormal,imageHover, action = None):
-        mouse = pygame.mouse.get_pos()
-
-        temp = getCenter(imageNormal, (x,y))
-
-        if x - w / 2 < mouse[0] < x + w / 2 and y - h / 2 < mouse[1] < y + h / 2:
-            gameDisplay.blit(imageHover, temp)
-            for event in pygame.event.get():
-
-                if action != None:
-                    action()
-        else:
-            gameDisplay.blit(imageNormal, temp)
-
-
 
     def Menu(self):
 
+        Button_SinglePlayer = Button_image((display_width / 2, (display_height) / 2 + 10), (200, 80), self.image_button_SP, self.image_button_SPhover, gameDisplay)
+        Button_Coop = Button_image((display_width / 2, (display_height) / 2 + 110), (200, 80), self.image_button_Coop, self.image_button_Coophover, gameDisplay)
+        Button_Progra = Button_image((display_width / 2, (display_height) / 2 + 210), (200, 80), self.image_button_Prog, self.image_button_Proghover, gameDisplay)
+        Button_Exit = Button_image((display_width - 50, (display_height) - 50), (80, 80), self.image_button_Exit, self.image_button_Exithover, gameDisplay)
+
+
         menu = True
-
-        gameDisplay.blit(self.image_Background, (0, 0))
-
         while menu:
+
             pygame.display.update()
             clock.tick(30)
+            gameDisplay.blit(self.image_Background, (0, 0))
+
             mouse = pygame.mouse.get_pos()
             gameDisplay.blit(self.image_Title, getCenter(self.image_Title, (display_width / 2, display_height / 4)))
 
             for event in pygame.event.get():
 
                 #Acciones de los botones al ser clickeados
-                self.Button_SinglePlayer.is_clicked(event, main)
-                self.Button_Coop.is_clicked(event)
-                self.Button_Progra.is_clicked(event)
-                self.Button_Exit.is_clicked(event,Quit)
+                Button_SinglePlayer.is_clicked(event, self.Select_LevelSP)
+                Button_Coop.is_clicked(event, self.Select_LevelCOOP)
+                Button_Progra.is_clicked(event, self.Select_LevelPROGRA)
+                Button_Exit.is_clicked(event,Quit)
 
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     menu = False
                     quit()
 
-
-
             # Dibujar botones
-            self.Button_SinglePlayer.draw(mouse)
-            self.Button_Coop.draw(mouse)
-            self.Button_Progra.draw(mouse)
-            self.Button_Exit.draw(mouse)
+            Button_SinglePlayer.draw(mouse)
+            Button_Coop.draw(mouse)
+            Button_Progra.draw(mouse)
+            Button_Exit.draw(mouse)
 
 
     def Select_LevelSP (self):
 
         self.selector = True
         gameDisplay.blit(self.image_Background, (0, 0))
-        self.create_text("Selecciona un Nivel - Single Player", Title, WHITE, (display_width/2, 50))
+        create_text("Selecciona un Nivel - Single Player", Title, WHITE, (display_width/2, 50),gameDisplay)
 
         separation = 150
-        cont = -2
+
+        N1 = Button_color((display_width / 2 + separation * (-2), 250), (100, 100), WHITE, LIGHTGRAY, "1", BLACK, smallText,gameDisplay)
+        N2 = Button_color((display_width / 2 + separation * (-1), 250), (100, 100), GRAY, BLACK, "2", BLACK, smallText,gameDisplay)
+        N3 = Button_color((display_width / 2 + separation * (0), 250), (100, 100), GRAY, BLACK, "3", BLACK, smallText,gameDisplay)
+        N4 = Button_color((display_width / 2 + separation * (1), 250), (100, 100), GRAY, BLACK, "4", BLACK, smallText,gameDisplay)
+        N5 = Button_color((display_width / 2 + separation * (2), 250), (100, 100), GRAY, BLACK, "5", BLACK, smallText,gameDisplay)
+
+        N6 = Button_color((display_width / 2 + separation * (-2), 400), (100, 100), GRAY, BLACK, "6", BLACK, smallText,gameDisplay)
+        N7 = Button_color((display_width / 2 + separation * (-1), 400), (100, 100), GRAY, BLACK, "7", BLACK, smallText,gameDisplay)
+        N8 = Button_color((display_width / 2 + separation * (0), 400), (100, 100), GRAY, BLACK, "8", BLACK, smallText,gameDisplay)
+        N9 = Button_color((display_width / 2 + separation * (1), 400), (100, 100), GRAY, BLACK, "9", BLACK, smallText,gameDisplay)
+        N10 = Button_color((display_width / 2 + separation * (2), 400), (100, 100), GRAY, BLACK, "10", BLACK, smallText,gameDisplay)
+
+        BACK = Button_color((display_width - 50, display_height - 50), (70, 70), RED, (100, 0, 0), "Volver", BLACK, smallText,gameDisplay)
 
         while self.selector:
 
             for event in pygame.event.get():
+
+                N1.is_clicked(event, main)
+                N2.is_clicked(event)
+                N3.is_clicked(event)
+                N4.is_clicked(event)
+                N5.is_clicked(event)
+                N6.is_clicked(event)
+                N7.is_clicked(event)
+                N8.is_clicked(event)
+                N9.is_clicked(event)
+                N10.is_clicked(event)
+                BACK.is_clicked(event, self.back)
+
+
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    selector = False
                     quit()
 
-            #self.buttonMenu_color("1",100,100, display_width/2 + separation * (-2),250, WHITE, LIGHTGRAY, main)
-            #self.buttonMenu_color("2",100,100, display_width/2 + separation * (-1),250, GRAY, BLACK)
-            #self.buttonMenu_color("3",100,100, display_width/2 + separation * (0),250, GRAY, BLACK)
-            #self.buttonMenu_color("4",100,100, display_width/2 + separation * (1),250, GRAY, BLACK)
-            #self.buttonMenu_color("5",100,100, display_width/2 + separation * (2),250, GRAY, BLACK)
+            mouse = pygame.mouse.get_pos()
 
-            #self.buttonMenu_color("6", 100, 100, display_width / 2 + separation * (-2), 400, GRAY, BLACK)
-            #self.buttonMenu_color("7", 100, 100, display_width / 2 + separation * (-1), 400, GRAY, BLACK)
-            #self.buttonMenu_color("8", 100, 100, display_width / 2 + separation * (0), 400, GRAY, BLACK,self.back)
-            #self.buttonMenu_color("9", 100, 100, display_width / 2 + separation * (1), 400, GRAY, BLACK)
-            #self.buttonMenu_color("10", 100, 100, display_width / 2 + separation * (2), 400, GRAY, BLACK)
+            #DRAW
+
+            N1.draw(mouse)
+            N2.draw(mouse)
+            N3.draw(mouse)
+            N4.draw(mouse)
+            N5.draw(mouse)
+            N6.draw(mouse)
+            N7.draw(mouse)
+            N8.draw(mouse)
+            N9.draw(mouse)
+            N10.draw(mouse)
+            BACK.draw(mouse)
+
+            # Actualizacion pantalla
+            pygame.display.update()
+            clock.tick(30)
+
+    def Select_LevelCOOP (self):
+
+        self.selector = True
+        gameDisplay.blit(self.image_Background, (0, 0))
+        create_text("Selecciona un Nivel - Cooperativo", Title, WHITE, (display_width/2, 50),gameDisplay)
+
+        separation = 150
+
+        N1 = Button_color((display_width / 2 + separation * (-2), 250), (100, 100), GRAY, BLACK, "1", BLACK, smallText,gameDisplay)
+        N2 = Button_color((display_width / 2 + separation * (-1), 250), (100, 100), GRAY, BLACK, "2", BLACK, smallText,gameDisplay)
+        N3 = Button_color((display_width / 2 + separation * (0), 250), (100, 100), GRAY, BLACK, "3", BLACK, smallText,gameDisplay)
+        N4 = Button_color((display_width / 2 + separation * (1), 250), (100, 100), GRAY, BLACK, "4", BLACK, smallText,gameDisplay)
+        N5 = Button_color((display_width / 2 + separation * (2), 250), (100, 100), GRAY, BLACK, "5", BLACK, smallText,gameDisplay)
+
+        N6 = Button_color((display_width / 2 + separation * (-2), 400), (100, 100), GRAY, BLACK, "6", BLACK, smallText,gameDisplay)
+        N7 = Button_color((display_width / 2 + separation * (-1), 400), (100, 100), GRAY, BLACK, "7", BLACK, smallText,gameDisplay)
+        N8 = Button_color((display_width / 2 + separation * (0), 400), (100, 100), GRAY, BLACK, "8", BLACK, smallText,gameDisplay)
+        N9 = Button_color((display_width / 2 + separation * (1), 400), (100, 100), GRAY, BLACK, "9", BLACK, smallText,gameDisplay)
+        N10 = Button_color((display_width / 2 + separation * (2), 400), (100, 100), GRAY, BLACK, "10", BLACK, smallText,gameDisplay)
+
+        BACK = Button_color((display_width - 50, display_height - 50), (70, 70), RED, (100, 0, 0), "Volver", BLACK, smallText,gameDisplay)
+
+        while self.selector:
+
+            for event in pygame.event.get():
+
+                N1.is_clicked(event)
+                N2.is_clicked(event)
+                N3.is_clicked(event)
+                N4.is_clicked(event)
+                N5.is_clicked(event)
+                N6.is_clicked(event)
+                N7.is_clicked(event)
+                N8.is_clicked(event)
+                N9.is_clicked(event)
+                N10.is_clicked(event)
+                BACK.is_clicked(event, self.back)
 
 
-            #self.buttonMenu_color("Volver", 70, 70, display_width - 120, display_height - 150, RED, (150, 0, 0),self.back)
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            mouse = pygame.mouse.get_pos()
+
+            #DRAW
+
+            N1.draw(mouse)
+            N2.draw(mouse)
+            N3.draw(mouse)
+            N4.draw(mouse)
+            N5.draw(mouse)
+            N6.draw(mouse)
+            N7.draw(mouse)
+            N8.draw(mouse)
+            N9.draw(mouse)
+            N10.draw(mouse)
+            BACK.draw(mouse)
+
+            # Actualizacion pantalla
+            pygame.display.update()
+            clock.tick(30)
+
+    def Select_LevelPROGRA (self):
+
+        self.selector = True
+        gameDisplay.blit(self.image_Background, (0, 0))
+        create_text("Selecciona un Nivel - Programar", Title, WHITE, (display_width/2, 50),gameDisplay)
+
+        separation = 150
+
+        N1 = Button_color((display_width / 2 + separation * (-2), 250), (100, 100), GRAY, BLACK, "1", BLACK, smallText,gameDisplay)
+        N2 = Button_color((display_width / 2 + separation * (-1), 250), (100, 100), GRAY, BLACK, "2", BLACK, smallText,gameDisplay)
+        N3 = Button_color((display_width / 2 + separation * (0), 250), (100, 100), GRAY, BLACK, "3", BLACK, smallText,gameDisplay)
+        N4 = Button_color((display_width / 2 + separation * (1), 250), (100, 100), GRAY, BLACK, "4", BLACK, smallText,gameDisplay)
+        N5 = Button_color((display_width / 2 + separation * (2), 250), (100, 100), GRAY, BLACK, "5", BLACK, smallText,gameDisplay)
+
+        N6 = Button_color((display_width / 2 + separation * (-2), 400), (100, 100), GRAY, BLACK, "6", BLACK, smallText,gameDisplay)
+        N7 = Button_color((display_width / 2 + separation * (-1), 400), (100, 100), GRAY, BLACK, "7", BLACK, smallText,gameDisplay)
+        N8 = Button_color((display_width / 2 + separation * (0), 400), (100, 100), GRAY, BLACK, "8", BLACK, smallText,gameDisplay)
+        N9 = Button_color((display_width / 2 + separation * (1), 400), (100, 100), GRAY, BLACK, "9", BLACK, smallText,gameDisplay)
+        N10 = Button_color((display_width / 2 + separation * (2), 400), (100, 100), GRAY, BLACK, "10", BLACK, smallText,gameDisplay)
+
+        BACK = Button_color((display_width - 50, display_height - 50), (70, 70), RED, (100, 0, 0), "Volver", BLACK, smallText,gameDisplay)
+
+        while self.selector:
+
+            for event in pygame.event.get():
+
+                N1.is_clicked(event)
+                N2.is_clicked(event)
+                N3.is_clicked(event)
+                N4.is_clicked(event)
+                N5.is_clicked(event)
+                N6.is_clicked(event)
+                N7.is_clicked(event)
+                N8.is_clicked(event)
+                N9.is_clicked(event)
+                N10.is_clicked(event)
+                BACK.is_clicked(event, self.back)
+
+
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    quit()
+
+            mouse = pygame.mouse.get_pos()
+
+            #DRAW
+
+            N1.draw(mouse)
+            N2.draw(mouse)
+            N3.draw(mouse)
+            N4.draw(mouse)
+            N5.draw(mouse)
+            N6.draw(mouse)
+            N7.draw(mouse)
+            N8.draw(mouse)
+            N9.draw(mouse)
+            N10.draw(mouse)
+            BACK.draw(mouse)
 
             # Actualizacion pantalla
             pygame.display.update()
@@ -149,7 +258,7 @@ class Game:
 
     def back (self):
         self.selector = False
-        print ("xd")
+
 
 
 
