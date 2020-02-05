@@ -296,7 +296,7 @@ class Game:
         create_text("Pausa", Title, WHITE, (900 / 2, 50), gameDisplay)
         smallPauseText = pygame.font.SysFont('Comic Sans MS', 23)
 
-        CONTINUE = Button_color((display_width / 2, 50), (200, 80), WHITE, WHITE, "Continuar", BLACK, smallPauseText,gameDisplay)
+        CONTINUE = Button_color((display_width / 2, 50), (200, 80), WHITE, GRAY, "Continuar", BLACK, smallPauseText,gameDisplay)
         QUIT = Button_color((display_width / 2, 150), (200, 80), WHITE, GRAY, "Salir", BLACK, smallPauseText,gameDisplay)
 
         while self.pause:
