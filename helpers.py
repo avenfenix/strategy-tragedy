@@ -1,9 +1,9 @@
 import pygame, sys
 from pygame.locals import *
+from settings import *
 
-
-display_width = 900
-display_height = 700
+display_width = WIDTH
+display_height = HEIGHT
 gameDisplay = pygame.display.set_mode((display_width, display_height))
 pygame.display.set_caption("Strategy Tragedy")
 clock = pygame.time.Clock()

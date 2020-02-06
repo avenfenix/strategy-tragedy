@@ -262,20 +262,23 @@ class Game:
         Background_test = get_image("Graphics\SP\Background.png", False)
         # Maps.load_map1()
 
-        Charac = Personaje(0, 466)
-        Cuadrado = Platform(100, 600, 100, 100)
-        crearColision = colisiones()
+        Charac = Personaje(0, 0)
+        Cuadrado = Platform(0, 650, 100, 50)
+        Cuadrado2 = Platform(300, 400, 100, 100)
+        Plataforma = Platform(0, 700, 900, 10)
+        colision1 = colisiones()
+        colision2 = colisiones()
         self.run = True
         while self.run:
             time = clock.tick(75)
             Charac.teclado()
             gameDisplay.blit(Background_test, (0, 0))
             Cuadrado.draw(gameDisplay)
-            check = crearColision.distance_for_player(Charac, Cuadrado)
-            # distance = crearColision.distance_for_objects(Charac,Cuadrado)
-            colision = crearColision.collide_player(Charac, Cuadrado)
-            print(colision)
-            Charac.movimiento(gameDisplay)
+            Cuadrado2.draw(gameDisplay)
+            player_cuadrado = colision1.distance_for_player(Charac,Cuadrado)
+            player_cuadrado2 = colision2.distance_for_player(Charac,Cuadrado2)
+            #player_plataforma = colision2.distance_for_player(Charac,Plataforma)
+            Charac.dibujar(gameDisplay)
             textsurface = myfont.render(
                 "Pos: " + str(Charac.Pos.x) + "-" + str(Charac.Pos.y) + " Vel: " + str(velocidad), False, WHITE)
             gameDisplay.blit(textsurface, (0, 0))
@@ -325,17 +328,14 @@ class Game:
         self.run = False
         self.selector = False
 
-
 def Single_Player():
     print("Hola")
 
 def Coop ():
     print("Hola")
 
-
 def Program ():
     print("Hola")
-
 
 def Quit():
     pygame.quit()
